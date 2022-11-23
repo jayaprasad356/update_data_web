@@ -22,9 +22,11 @@
                                 <tr>
                                     
                                     <th  data-field="id" data-sortable="true">ID</th>
+                                    <th  data-field="pin" data-sortable="true">Pin</th>
                                     <th  data-field="name" data-sortable="true">Name</th>
                                     <th  data-field="mobile" data-sortable="true">Mobile</th>
                                     <th  data-field="email" data-sortable="true">Email</th>
+                                    
                                     <th data-field="image">Image</th>
                                     <th  data-field="status" data-sortable="true">Status</th>
                                     <th class="main" data-field="operate" data-events="actionEvents">Action</th>

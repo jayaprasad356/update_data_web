@@ -63,21 +63,19 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $search = $db->escapeString($fn->xss_clean($_GET['search']));
         $where .= "WHERE name like '%" . $search . "%' OR mobile like '%" . $search . "%' OR email like '%" . $search . "%'";
     }
-    if (isset($_GET['sort'])){
+    if (isset($_GET['sort'])) {
         $sort = $db->escapeString($_GET['sort']);
-
     }
-    if (isset($_GET['order'])){
+    if (isset($_GET['order'])) {
         $order = $db->escapeString($_GET['order']);
-
-    }        
+    }
     $sql = "SELECT COUNT(`id`) as total FROM `users`" . $where;
     $db->sql($sql);
     $res = $db->getResult();
     foreach ($res as $row)
         $total = $row['total'];
 
-    $sql = "SELECT * FROM users ". $where ." ORDER BY " . $sort . " " . $order . " LIMIT " . $offset . "," . $limit;
+    $sql = "SELECT * FROM users " . $where . " ORDER BY " . $sort . " " . $order . " LIMIT " . $offset . "," . $limit;
     $db->sql($sql);
     $res = $db->getResult();
 
@@ -90,24 +88,23 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
 
         $operate = ' <a href="edit-user.php?id=' . $row['id'] . '"><i class="fa fa-edit"></i>Edit</a>';
         $tempRow['id'] = $row['id'];
+        $tempRow['pin'] = $row['pin'];
         $tempRow['name'] = $row['name'];
         $tempRow['mobile'] = $row['mobile'];
         $tempRow['email'] = $row['email'];
-        if(!empty($row['image'])){
+
+        if (!empty($row['image'])) {
             $tempRow['image'] = "<a data-lightbox='category' href='" . $row['image'] . "' data-caption='" . $row['name'] . "'><img src='" . $row['image'] . "' title='" . $row['name'] . "' height='50' /></a>";
-
-        }
-        else{
+        } else {
             $tempRow['image'] = 'No Image';
-
         }
-        if($row['status']==1)
-             $tempRow['status'] ="<label class='label label-success'>Verified</label>";
-         else
-           $tempRow['status']="<label class='label label-default'>Not-Verified</label>";
+        if ($row['status'] == 1)
+            $tempRow['status'] = "<label class='label label-success'>Verified</label>";
+        else
+            $tempRow['status'] = "<label class='label label-default'>Not-Verified</label>";
         $tempRow['operate'] = $operate;
         $rows[] = $tempRow;
-        }
+    }
     $bulkData['rows'] = $rows;
     print_r(json_encode($bulkData));
 }
@@ -148,7 +145,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'transactions') {
 
     $sql = "SELECT t.id AS id,t.*,u.name FROM `transactions` t $join 
     $where ORDER BY $sort $order LIMIT $offset, $limit";
-     $db->sql($sql);
+    $db->sql($sql);
     $res = $db->getResult();
 
     $bulkData = array();
@@ -163,10 +160,10 @@ if (isset($_GET['table']) && $_GET['table'] == 'transactions') {
         $tempRow['name'] = $row['name'];
         $tempRow['amount'] = $row['amount'];
         $tempRow['remarks'] = $row['remarks'];
-        if($row['type']=="Credit")
-             $tempRow['type'] ="<label class='label label-success'>Credit</label>";
+        if ($row['type'] == "Credit")
+            $tempRow['type'] = "<label class='label label-success'>Credit</label>";
         else
-            $tempRow['type']="<label class='label label-danger'>Debit</label>";
+            $tempRow['type'] = "<label class='label label-danger'>Debit</label>";
         $tempRow['operate'] = $operate;
         $rows[] = $tempRow;
     }

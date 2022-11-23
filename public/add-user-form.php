@@ -9,6 +9,7 @@ $fn = new custom_functions;
 if (isset($_POST['btnAdd'])) {
 
 
+        $pin = $db->escapeString($_POST['pin']);
         $name = $db->escapeString($_POST['name']);
         $email = $db->escapeString($_POST['email']);
         $mobile = $db->escapeString($_POST['mobile']);
@@ -28,6 +29,9 @@ if (isset($_POST['btnAdd'])) {
         $extension = end(explode(".", $_FILES["profile_image"]["name"]));
         
 
+        if (empty($pin)) {
+            $error['pin'] = " <span class='label label-danger'>Required!</span>";
+        }
         if (empty($name)) {
             $error['name'] = " <span class='label label-danger'>Required!</span>";
         }
@@ -41,7 +45,7 @@ if (isset($_POST['btnAdd'])) {
 
       
 
-        if (!empty($name) && !empty($email) && !empty($mobile)) 
+        if (!empty($pin) && !empty($name) && !empty($email) && !empty($mobile)) 
         {
             $result = $fn->validate_image($_FILES["profile_image"]);
                 // create random image file name
@@ -57,7 +61,7 @@ if (isset($_POST['btnAdd'])) {
 
             
            
-            $sql_query = "INSERT INTO users (name,email,mobile,image,status)VALUES('$name','$email','$mobile','$upload_image',0)";
+            $sql_query = "INSERT INTO users (pin,name,email,mobile,image,status)VALUES('$pin','$name','$email','$mobile','$upload_image',0)";
             $db->sql($sql_query);
             $result = $db->getResult();
             if (!empty($result)) {
@@ -96,6 +100,10 @@ if (isset($_POST['btnAdd'])) {
                     <div class="box-body">
                         <div class="row">
                             <div class="form-group">
+                            <div class="col-md-6">
+                                    <label for="exampleInputEmail1">Pin</label><i class="text-danger asterik">*</i><?php echo isset($error['pin']) ? $error['pin'] : ''; ?>
+                                     <input type="text" class="form-control" name="pin" required>
+                                </div>
                                 <div class="col-md-6">
                                     <label for="exampleInputEmail1"> Name</label><i class="text-danger asterik">*</i><?php echo isset($error['name']) ? $error['name'] : ''; ?>
                                      <input type="text" class="form-control" name="name" required>
