@@ -7,20 +7,20 @@ header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 
-
 include_once('../includes/crud.php');
+
 $db = new Database();
 $db->connect();
-
-if (empty($_POST['mobile'])) {
+if (empty($_POST['pin'])) {
     $response['success'] = false;
-    $response['message'] = "Mobile is Empty";
+    $response['message'] = "Pin is Empty";
     print_r(json_encode($response));
     return false;
 }
+$pin = $db->escapeString($_POST['pin']);
 
-$mobile = $db->escapeString($_POST['mobile']);
-$sql = "SELECT * FROM users WHERE mobile ='$mobile'";
+
+$sql = "SELECT * FROM users WHERE pin = $pin";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
@@ -32,9 +32,7 @@ if ($num == 1){
 }
 else{
     $response['success'] = false;
-    $response['message'] = "User Not Found";
-    $response['data'] = $res;
+    $response['message'] = "Invalid Credentials";
     print_r(json_encode($response));
 
 }
-?>

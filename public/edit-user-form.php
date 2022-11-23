@@ -15,6 +15,7 @@ if (isset($_GET['id'])) {
 }
 if (isset($_POST['btnEdit'])) {
 
+		$pin = $db->escapeString(($_POST['pin']));
 		$name = $db->escapeString(($_POST['name']));
 		$email = $db->escapeString(($_POST['email']));
 		$mobile = $db->escapeString(($_POST['mobile']));
@@ -45,7 +46,7 @@ if (isset($_POST['btnEdit'])) {
 				$db->sql($sql);
 			}
 			
-             $sql_query = "UPDATE users SET name='$name',email='$email',mobile='$mobile',status='$status' WHERE id =  $ID";
+             $sql_query = "UPDATE users SET pin='$pin', name='$name',email='$email',mobile='$mobile',status='$status' WHERE id =  $ID";
 			 $db->sql($sql_query);
              $update_result = $db->getResult();
 			if (!empty($update_result)) {
@@ -100,6 +101,10 @@ if (isset($_POST['btnCancel'])) { ?>
 					<input type="hidden" id="old_image" name="old_image"  value="<?= $res[0]['image']; ?>">
 						<div class="row">
 							<div class="form-group">
+							<div class="col-md-6">
+								   <label for="exampleInputEmail1">Pin</label><i class="text-danger asterik">*</i>
+							       <input type="text" class="form-control" name="pin" value="<?php echo $res[0]['pin']; ?>">
+								</div>
 								<div class="col-md-6">
 								   <label for="exampleInputEmail1">Name</label><i class="text-danger asterik">*</i>
 							       <input type="text" class="form-control" name="name" value="<?php echo $res[0]['name']; ?>">

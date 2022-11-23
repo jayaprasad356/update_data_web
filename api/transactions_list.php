@@ -11,31 +11,28 @@ include_once('../includes/crud.php');
 
 $db = new Database();
 $db->connect();
+if (empty($_POST['user_id'])) {
+    $response['success'] = false;
+    $response['message'] = "User ID is Empty";
+    print_r(json_encode($response));
+    return false;
+}
+$user_id = $db->escapeString($_POST['user_id']);
 
-$sql = "SELECT * FROM bikes";
+
+$sql = "SELECT * FROM transactions WHERE user_id = $user_id";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
-if ($num >= 1) {
-    foreach ($res as $row) {
-        $temp['id'] = $row['id'];
-        $temp['bike_name'] = $row['bike_name'];
-        $temp['brand'] =$row['brand'];
-        $temp['cc'] = $row['cc'];
-        $rows[] = $temp;
-        
-    }
-
+if ($num == 1){
     $response['success'] = true;
-    $response['message'] = "New Bikes listed Successfully";
-    $response['data'] = $rows;
+    $response['message'] = "Transactions Listed Successfully";
+    $response['data'] = $res;
     print_r(json_encode($response));
-
-}else{
+}
+else{
     $response['success'] = false;
-    $response['message'] = "No Bikes Found";
+    $response['message'] = "No Transactions List found";
     print_r(json_encode($response));
 
 }
-
-?>
