@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 23, 2022 at 12:43 PM
--- Server version: 10.4.24-MariaDB
--- PHP Version: 7.4.29
+-- Generation Time: Nov 23, 2022 at 05:39 PM
+-- Server version: 10.4.25-MariaDB
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -50,6 +50,7 @@ INSERT INTO `transactions` (`id`, `user_id`, `type`, `amount`, `remarks`) VALUES
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
+  `pin` varchar(255) DEFAULT NULL,
   `name` text DEFAULT NULL,
   `mobile` text DEFAULT NULL,
   `email` text DEFAULT NULL,
@@ -61,8 +62,9 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `mobile`, `email`, `image`, `status`) VALUES
-(1, 'Sanjay Prasad', '8643340213', 'sanjay12@gamil.com', 'upload/images/9417-2022-11-23.jpg', 0);
+INSERT INTO `users` (`id`, `pin`, `name`, `mobile`, `email`, `image`, `status`) VALUES
+(1, '2002', 'Sanjay Prasad', '8643340213', 'sanjay12@gamil.com', 'upload/images/9417-2022-11-23.jpg', 0),
+(2, '1234', 'Arjun', '8786576765', 'arjun@gmail.com', 'upload/images/8851-2022-11-23.png', 1);
 
 --
 -- Indexes for dumped tables
@@ -94,7 +96,7 @@ ALTER TABLE `transactions`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
