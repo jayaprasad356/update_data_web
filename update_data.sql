@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 23, 2022 at 05:39 PM
+-- Generation Time: Nov 26, 2022 at 04:43 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -20,6 +20,31 @@ SET time_zone = "+00:00";
 --
 -- Database: `update_data`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `managers`
+--
+
+CREATE TABLE `managers` (
+  `id` int(11) NOT NULL,
+  `pin` varchar(255) DEFAULT NULL,
+  `name` text DEFAULT NULL,
+  `mobile` text DEFAULT NULL,
+  `email` text DEFAULT NULL,
+  `image` text DEFAULT NULL,
+  `status` tinyint(4) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `managers`
+--
+
+INSERT INTO `managers` (`id`, `pin`, `name`, `mobile`, `email`, `image`, `status`) VALUES
+(1, '2002', 'Sanjay Prasad', '8643340213', 'sanjay12@gamil.com', 'upload/images/9417-2022-11-23.jpg', 0),
+(2, '1234', 'Arjun', '9878786765', 'arjun@gmail.com', 'upload/images/8851-2022-11-23.png', 1),
+(3, '7541', 'john', '8767654543', 'john@yahoo.com', 'upload/images/0137-2022-11-26.jpg', 0);
 
 -- --------------------------------------------------------
 
@@ -50,25 +75,29 @@ INSERT INTO `transactions` (`id`, `user_id`, `type`, `amount`, `remarks`) VALUES
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
-  `pin` varchar(255) DEFAULT NULL,
-  `name` text DEFAULT NULL,
-  `mobile` text DEFAULT NULL,
-  `email` text DEFAULT NULL,
-  `image` text DEFAULT NULL,
-  `status` tinyint(4) DEFAULT 0
+  `manager_id` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `mobile` varchar(255) DEFAULT NULL,
+  `balance` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `pin`, `name`, `mobile`, `email`, `image`, `status`) VALUES
-(1, '2002', 'Sanjay Prasad', '8643340213', 'sanjay12@gamil.com', 'upload/images/9417-2022-11-23.jpg', 0),
-(2, '1234', 'Arjun', '8786576765', 'arjun@gmail.com', 'upload/images/8851-2022-11-23.png', 1);
+INSERT INTO `users` (`id`, `manager_id`, `name`, `mobile`, `balance`) VALUES
+(1, 'Sanjay Prasad', 'last name', '56858', '234'),
+(2, NULL, 'last name', '56858', NULL);
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `managers`
+--
+ALTER TABLE `managers`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `transactions`
@@ -85,6 +114,12 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `managers`
+--
+ALTER TABLE `managers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `transactions`
