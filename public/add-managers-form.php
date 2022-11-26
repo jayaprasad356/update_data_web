@@ -7,7 +7,7 @@ $fn = new custom_functions;
 ?>
 <?php
 if (isset($_POST['btnAdd'])) {
-
+    echo '<br>'.rand();
 
         $pin = $db->escapeString($_POST['pin']);
         $name = $db->escapeString($_POST['name']);
@@ -61,7 +61,7 @@ if (isset($_POST['btnAdd'])) {
 
             
            
-            $sql_query = "INSERT INTO users (pin,name,email,mobile,image,status)VALUES('$pin','$name','$email','$mobile','$upload_image',0)";
+            $sql_query = "INSERT INTO managers (pin,name,email,mobile,image,status)VALUES('$pin','$name','$email','$mobile','$upload_image',0)";
             $db->sql($sql_query);
             $result = $db->getResult();
             if (!empty($result)) {
@@ -79,7 +79,7 @@ if (isset($_POST['btnAdd'])) {
         }
 ?>
 <section class="content-header">
-    <h1>Add User <small><a href='users.php'> <i class='fa fa-angle-double-left'></i>&nbsp;&nbsp;&nbsp;Back to Users</a></small></h1>
+    <h1>Add Managers <small><a href='managers.php'> <i class='fa fa-angle-double-left'></i>&nbsp;&nbsp;&nbsp;Back to Managers</a></small></h1>
 
     <?php echo isset($error['add_user']) ? $error['add_user'] : ''; ?>
     <ol class="breadcrumb">
@@ -101,8 +101,8 @@ if (isset($_POST['btnAdd'])) {
                         <div class="row">
                             <div class="form-group">
                             <div class="col-md-6">
-                                    <label for="exampleInputEmail1">Pin</label><i class="text-danger asterik">*</i><?php echo isset($error['pin']) ? $error['pin'] : ''; ?>
-                                     <input type="text" class="form-control" name="pin" required>
+                                    <label for="exampleInputEmail1">Pin</label><i class="text-danger asterik">*</i><?php echo isset($error['pin']) ? $error['pin'] : '';  ?>
+                                     <input type="text" class="form-control" name="pin" value="<?php echo ''.rand(1000,10000);?>" required>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="exampleInputEmail1"> Name</label><i class="text-danger asterik">*</i><?php echo isset($error['name']) ? $error['name'] : ''; ?>

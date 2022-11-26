@@ -7,39 +7,37 @@ $fn = new custom_functions;
 <?php
 
 if (isset($_GET['id'])) {
-    $ID = $db->escapeString($_GET['id']);
+	$ID = $db->escapeString($_GET['id']);
 } else {
-    // $ID = "";
-    return false;
-    exit(0);
+	// $ID = "";
+	return false;
+	exit(0);
 }
 if (isset($_POST['btnEdit'])) {
 
-		$name = $db->escapeString($_POST['name']);
-		$type = $db->escapeString($_POST['type']);
-		$amount = $db->escapeString($_POST['amount']);
-		$remarks = $db->escapeString($_POST['remarks']);
-		$error = array();
+	$name = $db->escapeString($_POST['name']);
+	$amount = $db->escapeString($_POST['amount']);
+	$remarks = $db->escapeString($_POST['remarks']);
+	$error = array();
 
-		if (!empty($name) && !empty($type) && !empty($amount) && !empty($remarks)) 
-        {
-             $sql_query = "UPDATE transactions SET user_id='$name',type='$type',amount='$amount',remarks='$remarks' WHERE id =  $ID";
-			 $db->sql($sql_query);
-             $update_result = $db->getResult();
-			if (!empty($update_result)) {
-				$update_result = 0;
-			} else {
-				$update_result = 1;
-			}
-
-			// check update result
-			if ($update_result == 1) {
-				$error['update_transaction'] = " <section class='content-header'><span class='label label-success'>Transaction updated Successfully</span></section>";
-			} else {
-				$error['update_transaction'] = " <span class='label label-danger'>Failed to Update</span>";
-			}
+	if (!empty($name) && !empty($type) && !empty($amount) && !empty($remarks)) {
+		$sql_query = "UPDATE transactions SET user_id='$name',type='$type',amount='$amount',remarks='$remarks' WHERE id =  $ID";
+		$db->sql($sql_query);
+		$update_result = $db->getResult();
+		if (!empty($update_result)) {
+			$update_result = 0;
+		} else {
+			$update_result = 1;
 		}
-	} 
+
+		// check update result
+		if ($update_result == 1) {
+			$error['update_transaction'] = " <section class='content-header'><span class='label label-success'>Transaction updated Successfully</span></section>";
+		} else {
+			$error['update_transaction'] = " <span class='label label-danger'>Failed to Update</span>";
+		}
+	}
+}
 
 
 // create array variable to store previous data
@@ -67,7 +65,7 @@ if (isset($_POST['btnCancel'])) { ?>
 
 	<div class="row">
 		<div class="col-md-10">
-		
+
 			<!-- general form elements -->
 			<div class="box box-primary">
 				<div class="box-header with-border">
@@ -78,50 +76,40 @@ if (isset($_POST['btnCancel'])) { ?>
 						<div class="row">
 							<div class="form-group">
 								<div class="col-md-6">
-								   <label for="exampleInputEmail1">Name</label><i class="text-danger asterik">*</i>
+									<label for="exampleInputEmail1">Name</label><i class="text-danger asterik">*</i>
 									<select id='name' name="name" class='form-control' required>
-									   <option value="none">-- Select --</option>
-												<?php
-													$sql = "SELECT id,name FROM `users`";
-													$db->sql($sql);
-													$result = $db->getResult();
-													foreach ($result as $value) {
-												?>
-													<option value='<?= $value['id'] ?>' <?= $value['id']==$res[0]['user_id'] ? 'selected="selected"' : '';?>><?= $value['name'] ?></option>
-												<?php } ?>
+										<option value="none">-- Select --</option>
+										<?php
+										$sql = "SELECT id,name FROM `users`";
+										$db->sql($sql);
+										$result = $db->getResult();
+										foreach ($result as $value) {
+										?>
+											<option value='<?= $value['id'] ?>' <?= $value['id'] == $res[0]['user_id'] ? 'selected="selected"' : ''; ?>><?= $value['name'] ?></option>
+										<?php } ?>
 									</select>
 								</div>
 								<div class="col-md-6">
-										<label class="control-label">Type</label><i class="text-danger asterik">*</i><br>
-										<div id="type" class="btn-group">
-											<label class="btn btn-danger" data-toggle-class="btn-default" data-toggle-passive-class="btn-default">
-												<input type="radio" name="type" value="Debit" <?= ($res[0]['type'] == "Debit") ? 'checked' : ''; ?>> Debit
-											</label>
-											<label class="btn btn-success" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-												<input type="radio" name="type" value="Credit" <?= ($res[0]['type'] == "Credit") ? 'checked' : ''; ?>> Credit
-											</label>
-										</div>
+									<label for="exampleInputEmail1">Amount</label><i class="text-danger asterik">*</i>
+									<input type="number" class="form-control" name="amount" value="<?php echo $res[0]['amount']; ?>">
 								</div>
 							</div>
 						</div>
 						<br>
 						<div class="row">
 							<div class="form-group">
+
 								<div class="col-md-6">
-								   <label for="exampleInputEmail1">Amount</label><i class="text-danger asterik">*</i>
-							       <input type="number" class="form-control" name="amount" value="<?php echo $res[0]['amount']; ?>">
+									<label for="exampleInputEmail1">Remarks</label><i class="text-danger asterik">*</i>
+									<textarea type="text" rows="3" class="form-control" name="remarks"><?php echo $res[0]['remarks']; ?></textarea>
 								</div>
-								<div class="col-md-6">
-								    <label for="exampleInputEmail1">Remarks</label><i class="text-danger asterik">*</i>
-							       <textarea type="text" rows="3" class="form-control" name="remarks"><?php echo $res[0]['remarks']; ?></textarea>
-                                 </div>
 							</div>
 						</div>
 					</div><!-- /.box-body -->
 
 					<div class="box-footer">
 						<button type="submit" class="btn btn-primary" name="btnEdit">Update</button>
-					
+
 					</div>
 				</form>
 			</div><!-- /.box -->

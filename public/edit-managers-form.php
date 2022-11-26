@@ -42,11 +42,11 @@ if (isset($_POST['btnEdit'])) {
 					unlink($old_image);
 				}
 				$upload_image = 'upload/images/' . $filename;
-				$sql = "UPDATE users SET `image`='" . $upload_image . "' WHERE `id`=" . $ID;
+				$sql = "UPDATE managers SET `image`='" . $upload_image . "' WHERE `id`=" . $ID;
 				$db->sql($sql);
 			}
 			
-             $sql_query = "UPDATE users SET pin='$pin', name='$name',email='$email',mobile='$mobile',status='$status' WHERE id =  $ID";
+             $sql_query = "UPDATE managers SET pin='$pin', name='$name',email='$email',mobile='$mobile',status='$status' WHERE id =  $ID";
 			 $db->sql($sql_query);
              $update_result = $db->getResult();
 			if (!empty($update_result)) {
@@ -68,18 +68,18 @@ if (isset($_POST['btnEdit'])) {
 // create array variable to store previous data
 $data = array();
 
-$sql_query = "SELECT * FROM users WHERE id =" . $ID;
+$sql_query = "SELECT * FROM managers WHERE id =" . $ID;
 $db->sql($sql_query);
 $res = $db->getResult();
 
 if (isset($_POST['btnCancel'])) { ?>
 	<script>
-		window.location.href = "users.php";
+		window.location.href = "managers.php";
 	</script>
 <?php } ?>
 <section class="content-header">
 	<h1>
-		Edit Users<small><a href='users.php'><i class='fa fa-angle-double-left'></i>&nbsp;&nbsp;&nbsp;Back to Users</a></small></h1>
+		Edit Managers<small><a href='managers.php'><i class='fa fa-angle-double-left'></i>&nbsp;&nbsp;&nbsp;Back to Managers</a></small></h1>
 	<small><?php echo isset($error['update_user']) ? $error['update_user'] : ''; ?></small>
 	<ol class="breadcrumb">
 		<li><a href="home.php"><i class="fa fa-home"></i> Home</a></li>

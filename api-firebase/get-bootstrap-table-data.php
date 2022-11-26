@@ -43,7 +43,7 @@ if (isset($config['system_timezone']) && isset($config['system_timezone_gmt'])) 
     date_default_timezone_set('Asia/Kolkata');
     $db->sql("SET `time_zone` = '+05:30'");
 }
-if (isset($_GET['table']) && $_GET['table'] == 'users') {
+if (isset($_GET['table']) && $_GET['table'] == 'managers') {
     $offset = 0;
     $limit = 10;
     $where = '';
@@ -69,13 +69,13 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
     if (isset($_GET['order'])) {
         $order = $db->escapeString($_GET['order']);
     }
-    $sql = "SELECT COUNT(`id`) as total FROM `users`" . $where;
+    $sql = "SELECT COUNT(`id`) as total FROM `managers`" . $where;
     $db->sql($sql);
     $res = $db->getResult();
     foreach ($res as $row)
         $total = $row['total'];
 
-    $sql = "SELECT * FROM users " . $where . " ORDER BY " . $sort . " " . $order . " LIMIT " . $offset . "," . $limit;
+    $sql = "SELECT * FROM managers " . $where . " ORDER BY " . $sort . " " . $order . " LIMIT " . $offset . "," . $limit;
     $db->sql($sql);
     $res = $db->getResult();
 
@@ -86,7 +86,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
     $tempRow = array();
     foreach ($res as $row) {
 
-        $operate = ' <a href="edit-user.php?id=' . $row['id'] . '"><i class="fa fa-edit"></i>Edit</a>';
+        $operate = ' <a href="edit-managers.php?id=' . $row['id'] . '"><i class="fa fa-edit"></i>Edit</a>';
         $tempRow['id'] = $row['id'];
         $tempRow['pin'] = $row['pin'];
         $tempRow['name'] = $row['name'];
@@ -135,7 +135,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'transactions') {
     if (isset($_GET['order'])) {
         $order = $db->escapeString($_GET['order']);
     }
-    $join = "LEFT JOIN `users` u ON t.user_id = u.id";
+    $join = "LEFT JOIN `managers` u ON t.user_id = u.id";
 
     $sql = "SELECT COUNT(t.id) as total FROM `transactions` t $join " . $where . "";
     $db->sql($sql);
@@ -167,6 +167,63 @@ if (isset($_GET['table']) && $_GET['table'] == 'transactions') {
         $tempRow['operate'] = $operate;
         $rows[] = $tempRow;
     }
+    $bulkData['rows'] = $rows;
+    print_r(json_encode($bulkData));
+}
+if (isset($_GET['table']) && $_GET['table'] == 'users') {
+    $offset = 0;
+    $limit = 10;
+    $where = '';
+    $sort = 'id';
+    $order = 'DESC';
+    if (isset($_GET['offset']))
+        $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
+    if (isset($_GET['limit']))
+        $limit = $db->escapeString($fn->xss_clean($_GET['limit']));
+
+    if (isset($_GET['sort']))
+        $sort = $db->escapeString($fn->xss_clean($_GET['sort']));
+    if (isset($_GET['order']))
+        $order = $db->escapeString($fn->xss_clean($_GET['order']));
+
+    if (isset($_GET['search']) && !empty($_GET['search'])) {
+        $search = $db->escapeString($fn->xss_clean($_GET['search']));
+        $where .= "WHERE name like '%" . $search . "%' OR mobile like '%" . $search . "%' OR address like '%" . $search . "%' ";
+    }
+    if (isset($_GET['sort'])){
+        $sort = $db->escapeString($_GET['sort']);
+
+    }
+    if (isset($_GET['order'])){
+        $order = $db->escapeString($_GET['order']);
+
+    }        
+    $sql = "SELECT COUNT(`id`) as total FROM `users`" . $where;
+    $db->sql($sql);
+    $res = $db->getResult();
+    foreach ($res as $row)
+        $total = $row['total'];
+
+    $sql = "SELECT * FROM users ". $where ." ORDER BY " . $sort . " " . $order . " LIMIT " . $offset . "," . $limit;
+    $db->sql($sql);
+    $res = $db->getResult();
+
+    $bulkData = array();
+    $bulkData['total'] = $total;
+
+    $rows = array();
+    $tempRow = array();
+    foreach ($res as $row) {
+
+        $operate = ' <a href="edit-users.php?id=' . $row['id'] . '"><i class="fa fa-edit"></i>Edit</a>';
+        $tempRow['id'] = $row['id'];
+        $tempRow['manager_id'] = $row['manager_id'];
+        $tempRow['name'] = $row['name'];
+        $tempRow['mobile'] = $row['mobile'];
+        $tempRow['balance'] = $row['balance'];
+        $tempRow['operate'] = $operate;
+        $rows[] = $tempRow;
+        }
     $bulkData['rows'] = $rows;
     print_r(json_encode($bulkData));
 }
