@@ -42,6 +42,10 @@ $user_id = $db->escapeString($_POST['user_id']);
 $manager_id = $db->escapeString($_POST['manager_id']);
 $amount = $db->escapeString($_POST['amount']);
 $remarks = $db->escapeString($_POST['remarks']);
+
+$sql = "UPDATE users SET balance = balance + $amount WHERE id = $user_id";
+$db->sql($sql);
+
 $sql = "INSERT INTO transactions (`user_id`,`manager_id`,`amount`,`remarks`)VALUES('$user_id','$manager_id','$amount','$remarks')";
 $db->sql($sql);
 $res = $db->getResult();
