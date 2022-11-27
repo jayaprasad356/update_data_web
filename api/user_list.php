@@ -24,7 +24,7 @@ $sql = "SELECT * FROM users WHERE manager_id = $manager_id";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
-if ($num == 1){
+if ($num >= 1){
     $response['success'] = true;
     $response['message'] = "User Listed Successfully";
     $response['data'] = $res;

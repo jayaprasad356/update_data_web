@@ -49,7 +49,7 @@ else{
     $db->sql($sql);
     $res = $db->getResult();
     $response['success'] = true;
-    $response['message'] = "User Registered Successfully";
+    $response['message'] = "User Added Successfully";
     print_r(json_encode($response));
 
 

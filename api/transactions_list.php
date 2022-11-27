@@ -20,11 +20,11 @@ if (empty($_POST['manager_id'])) {
 $manager_id = $db->escapeString($_POST['manager_id']);
 
 
-$sql = "SELECT * FROM transactions WHERE manager_id = $manager_id";
+$sql = "SELECT * FROM transactions t,users u WHERE t.user_id = u.id AND t.manager_id = $manager_id";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
-if ($num == 1){
+if ($num >= 1){
     $response['success'] = true;
     $response['message'] = "Transactions Listed Successfully";
     $response['data'] = $res;
