@@ -20,7 +20,7 @@ if (empty($_POST['pin'])) {
 $pin = $db->escapeString($_POST['pin']);
 
 
-$sql = "SELECT * FROM users WHERE pin = $pin";
+$sql = "SELECT * FROM managers WHERE pin = $pin AND status = 1";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);

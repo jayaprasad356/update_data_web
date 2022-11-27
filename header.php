@@ -169,18 +169,18 @@ $fn = new custom_functions;
                         <span>Managers</span>
                     </a>
                 </li>
-                <li class="treeview">
+                <!-- <li class="treeview">
                     <a href="transactions.php">
                     <i class="fa fa-arrow-right"></i>
                         <span>Transactions</span>
                     </a>
-                </li>
-                <li class="treeview">
+                </li> -->
+                <!-- <li class="treeview">
                     <a href="users.php">
                     <i class="fa fa-users"></i>
                         <span>Users</span>
                     </a>
-                </li>
+                </li> -->
             </ul>
             </section>
             <!-- /.sidebar -->

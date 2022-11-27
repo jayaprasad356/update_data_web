@@ -7,27 +7,12 @@ $fn = new custom_functions;
 ?>
 <?php
 if (isset($_POST['btnAdd'])) {
-    echo '<br>'.rand();
 
         $pin = $db->escapeString($_POST['pin']);
         $name = $db->escapeString($_POST['name']);
         $email = $db->escapeString($_POST['email']);
         $mobile = $db->escapeString($_POST['mobile']);
 
-        // get image info
-        $menu_image = $db->escapeString($_FILES['profile_image']['name']);
-        $image_error = $db->escapeString($_FILES['profile_image']['error']);
-        $image_type = $db->escapeString($_FILES['profile_image']['type']);
-
-        // create array variable to handle error
-        $error = array();
-            // common image file extensions
-        $allowedExts = array("gif", "jpeg", "jpg", "png");
-
-        // get image file extension
-        error_reporting(E_ERROR | E_PARSE);
-        $extension = end(explode(".", $_FILES["profile_image"]["name"]));
-        
 
         if (empty($pin)) {
             $error['pin'] = " <span class='label label-danger'>Required!</span>";
@@ -47,34 +32,33 @@ if (isset($_POST['btnAdd'])) {
 
         if (!empty($pin) && !empty($name) && !empty($email) && !empty($mobile)) 
         {
-            $result = $fn->validate_image($_FILES["profile_image"]);
-                // create random image file name
-                $string = '0123456789';
-                $file = preg_replace("/\s+/", "_", $_FILES['profile_image']['name']);
-                $menu_image = $function->get_random_string($string, 4) . "-" . date("Y-m-d") . "." . $extension;
-        
-                // upload new image
-                $upload = move_uploaded_file($_FILES['profile_image']['tmp_name'], 'upload/images/' . $menu_image);
-        
-                // insert new data to menu table
-                $upload_image = 'upload/images/' . $menu_image;
+            $sql = "SELECT * FROM users WHERE pin = $pin";
+            $db->sql($sql);
+            $res = $db->getResult();
+            $num = $db->numRows($res);
+            if ($num >= 1){
+                $error['add_user'] = " <span class='label label-danger'>Same Pin Not Allowed</span>";
+    
+            }
+            else{
+                $sql_query = "INSERT INTO managers (pin,name,email,mobile,status)VALUES('$pin','$name','$email','$mobile',0)";
+                $db->sql($sql_query);
+                $result = $db->getResult();
+                if (!empty($result)) {
+                    $result = 0;
+                } else {
+                    $result = 1;
+                }
+                if ($result == 1) {
+                    $error['add_user'] = " <section class='content-header'><span class='label label-success'>User Added Successfully</span></section>";
+                } else {
+                    $error['add_user'] = " <span class='label label-danger'>Failed</span>";
+                }
 
-            
-           
-            $sql_query = "INSERT INTO managers (pin,name,email,mobile,image,status)VALUES('$pin','$name','$email','$mobile','$upload_image',0)";
-            $db->sql($sql_query);
-            $result = $db->getResult();
-            if (!empty($result)) {
-                $result = 0;
-            } else {
-                $result = 1;
+
             }
 
-            if ($result == 1) {
-                $error['add_user'] = " <section class='content-header'><span class='label label-success'>User Added Successfully</span></section>";
-            } else {
-                $error['add_user'] = " <span class='label label-danger'>Failed</span>";
-            }
+
             }
         }
 ?>
@@ -102,7 +86,7 @@ if (isset($_POST['btnAdd'])) {
                             <div class="form-group">
                             <div class="col-md-6">
                                     <label for="exampleInputEmail1">Pin</label><i class="text-danger asterik">*</i><?php echo isset($error['pin']) ? $error['pin'] : '';  ?>
-                                     <input type="text" class="form-control" name="pin" value="<?php echo ''.rand(1000,10000);?>" required>
+                                     <input type="text" class="form-control" name="pin" value="<?php echo ''.rand(1000,10000);?>" readonly required>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="exampleInputEmail1"> Name</label><i class="text-danger asterik">*</i><?php echo isset($error['name']) ? $error['name'] : ''; ?>
@@ -121,16 +105,6 @@ if (isset($_POST['btnAdd'])) {
                                     <label for="exampleInputEmail1">Email-Id:</label><i class="text-danger asterik">*</i><?php echo isset($error['email']) ? $error['email'] : ''; ?>
                                      <input type="email" class="form-control" name="email" required>
                                 </div>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-md-6">
-                                    <label for="exampleInputFile">Image</label><i class="text-danger asterik">*</i><?php echo isset($error['profile_image']) ? $error['profile_image'] : ''; ?>
-                                     <input type="file" name="profile_image" onchange="readURL(this);" accept="image/png,  image/jpeg" id="profile_image" /><br>
-                                    <div class="form-group">
-                                        <img id="blah" src="#" alt="" />
-                                    </div>
                             </div>
                         </div>
                     </div>

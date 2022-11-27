@@ -19,6 +19,12 @@ if (empty($_POST['name'])) {
     print_r(json_encode($response));
     return false;
 }
+if (empty($_POST['manager_id'])) {
+    $response['success'] = false;
+    $response['message'] = "Manager Id is Empty";
+    print_r(json_encode($response));
+    return false;
+}
 if (empty($_POST['mobile'])) {
     $response['success'] = false;
     $response['message'] = "Mobile is Empty";
@@ -28,14 +34,27 @@ if (empty($_POST['mobile'])) {
 
 $name = $db->escapeString($_POST['name']);
 $mobile = $db->escapeString($_POST['mobile']);
-
-$sql = "INSERT INTO users (`name`,`mobile`)VALUES('$name','$mobile')";
+$manager_id = $db->escapeString($_POST['manager_id']);
+$sql = "SELECT * FROM users WHERE mobile = '$mobile'";
 $db->sql($sql);
 $res = $db->getResult();
-$response['success'] = true;
-$response['message'] = "Successfully Users Entry Added";
-$response['data'] = $res;
-print_r(json_encode($response));
+$num = $db->numRows($res);
+if ($num >= 1){
+    $response['success'] = false;
+    $response['message'] = "Mobile number Already Registered";
+    print_r(json_encode($response));
+}
+else{
+    $sql = "INSERT INTO users (`name`,`mobile`,`manager_id`)VALUES('$name','$mobile',$manager_id)";
+    $db->sql($sql);
+    $res = $db->getResult();
+    $response['success'] = true;
+    $response['message'] = "User Registered Successfully";
+    print_r(json_encode($response));
+
+
+}
+
 
 
 ?>

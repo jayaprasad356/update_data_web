@@ -92,12 +92,6 @@ if (isset($_GET['table']) && $_GET['table'] == 'managers') {
         $tempRow['name'] = $row['name'];
         $tempRow['mobile'] = $row['mobile'];
         $tempRow['email'] = $row['email'];
-
-        if (!empty($row['image'])) {
-            $tempRow['image'] = "<a data-lightbox='category' href='" . $row['image'] . "' data-caption='" . $row['name'] . "'><img src='" . $row['image'] . "' title='" . $row['name'] . "' height='50' /></a>";
-        } else {
-            $tempRow['image'] = 'No Image';
-        }
         if ($row['status'] == 1)
             $tempRow['status'] = "<label class='label label-success'>Verified</label>";
         else

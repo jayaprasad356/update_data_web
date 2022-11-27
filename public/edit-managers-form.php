@@ -23,29 +23,6 @@ if (isset($_POST['btnEdit'])) {
 		$error = array();
 
 		if (!empty($name) && !empty($email) && !empty($mobile)) {
-			if ($_FILES['image']['size'] != 0 && $_FILES['image']['error'] == 0 && !empty($_FILES['image'])) {
-				//image isn't empty and update the image
-				$old_image = $db->escapeString($_POST['old_image']);
-				$extension = pathinfo($_FILES["image"]["name"])['extension'];
-		
-				$result = $fn->validate_image($_FILES["image"]);
-				$target_path = 'upload/images/';
-				
-				$filename = microtime(true) . '.' . strtolower($extension);
-				$full_path = $target_path . "" . $filename;
-				if (!move_uploaded_file($_FILES["image"]["tmp_name"], $full_path)) {
-					echo '<p class="alert alert-danger">Can not upload image.</p>';
-					return false;
-					exit();
-				}
-				if (!empty($old_image)) {
-					unlink($old_image);
-				}
-				$upload_image = 'upload/images/' . $filename;
-				$sql = "UPDATE managers SET `image`='" . $upload_image . "' WHERE `id`=" . $ID;
-				$db->sql($sql);
-			}
-			
              $sql_query = "UPDATE managers SET pin='$pin', name='$name',email='$email',mobile='$mobile',status='$status' WHERE id =  $ID";
 			 $db->sql($sql_query);
              $update_result = $db->getResult();
@@ -136,15 +113,6 @@ if (isset($_POST['btnCancel'])) { ?>
 							</div>
 						</div>
 						<br>
-						<div class="row">
-							<div class="form-group">
-						     	<div class="form-group col-md-6">
-                                        <label for="exampleInputFile">Image</label><i class="text-danger asterik">*</i>
-                                        <input type="file" accept="image/png,  image/jpeg" onchange="readURL(this);"  name="image" id="image">
-                                        <p class="help-block"><img id="blah" src="<?php echo $res[0]['image']; ?>" style="max-width:100%" /></p>
-                                </div>
-							</div>
-						</div>
 					</div><!-- /.box-body -->
 
 					<div class="box-footer">

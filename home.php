@@ -47,91 +47,21 @@ include "header.php";
                     <div class="small-box bg-aqua">
                         <div class="inner">
                             <h3><?php
-                            $sql = "SELECT * FROM users";
+                            $sql = "SELECT * FROM managers";
                             $db->sql($sql);
                             $res = $db->getResult();
                             $num = $db->numRows($res);
                             echo $num;
                              ?></h3>
-                            <p>Users</p>
+                            <p>Managers</p>
                         </div>
                         <div class="icon"><i class="fa fa-users"></i></div>
-                        <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                        <a href="managers.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
-                <!-- <div class="col-lg-3 col-xs-6">
-                    <div class="small-box bg-yellow">
-                        <div class="inner">
-                        <h3><?php
-                            $sql = "SELECT * FROM categories";
-                            $db->sql($sql);
-                            $res = $db->getResult();
-                            $num = $db->numRows($res);
-                            echo $num;
-                             ?></h3>
-                            <p>Categories</p>
-                        </div>
-                        <div class="icon"><i class="fa fa-shopping-cart"></i></div>
-                        <a href="categories.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                    </div>
-                </div> -->
-                <!-- <div class="col-lg-3 col-xs-6">
-                    <div class="small-box bg-green">
-                        <div class="inner">
-                        <h3><?php
-                            $sql = "SELECT * FROM tyre_products";
-                            $db->sql($sql);
-                            $res = $db->getResult();
-                            $num = $db->numRows($res);
-                            echo $num;
-                             ?></h3>
-                            <p>Tyre Products</p>
-                        </div>
-                        <div class="icon"><i class="fa fa-cubes"></i></div>
-                        <a href="tyre_products.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                    </div>
-                </div> -->
-                <!-- <div class="col-lg-3 col-xs-6">
-                    <div class="small-box bg-red">
-                        <div class="inner">
-                        <h3><?php
-                            $sql = "SELECT * FROM showroom";
-                            $db->sql($sql);
-                            $res = $db->getResult();
-                            $num = $db->numRows($res);
-                            echo $num;
-                             ?></h3>
-                            <p>Showrooms</p>
-                        </div>
-                        <div class="icon"><i class="fa fa-map"></i></div>
-                        <a href="showrooms.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                    </div>
-                </div> -->
             </div>
         </section>
     </div>
-    <script>
-        $('#filter_order').on('change', function() {
-            $('#orders_table').bootstrapTable('refresh');
-        });
-        $('#seller_id').on('change', function() {
-            $('#orders_table').bootstrapTable('refresh');
-        });
-    </script>
-    <script>
-        function queryParams(p) {
-            return {
-                "filter_order": $('#filter_order').val(),
-                "seller_id": $('#seller_id').val(),
-                limit: p.limit,
-                sort: p.sort,
-                order: p.order,
-                offset: p.offset,
-                search: p.search
-            };
-        }
-
-    </script>
     <?php include "footer.php"; ?>
 </body>
 </html>
