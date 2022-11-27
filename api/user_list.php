@@ -20,19 +20,19 @@ if (empty($_POST['manager_id'])) {
 $manager_id = $db->escapeString($_POST['manager_id']);
 
 
-$sql = "SELECT * FROM transactions WHERE manager_id = $manager_id";
+$sql = "SELECT * FROM users WHERE manager_id = $manager_id";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
 if ($num == 1){
     $response['success'] = true;
-    $response['message'] = "Transactions Listed Successfully";
+    $response['message'] = "User Listed Successfully";
     $response['data'] = $res;
     print_r(json_encode($response));
 }
 else{
     $response['success'] = false;
-    $response['message'] = "No Transactions List found";
+    $response['message'] = "No User List found";
     print_r(json_encode($response));
 
 }
