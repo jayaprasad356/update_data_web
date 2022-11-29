@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 27, 2022 at 07:12 AM
--- Server version: 10.4.22-MariaDB
--- PHP Version: 7.4.27
+-- Generation Time: Nov 29, 2022 at 08:35 AM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 7.4.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -56,16 +56,19 @@ INSERT INTO `managers` (`id`, `pin`, `name`, `mobile`, `email`, `status`) VALUES
 CREATE TABLE `transactions` (
   `id` int(11) NOT NULL,
   `user_id` int(200) DEFAULT NULL,
-  `amount` text DEFAULT NULL,
-  `remarks` text DEFAULT NULL
+  `manager_id` int(11) NOT NULL,
+  `amount` int(11) NOT NULL DEFAULT 0,
+  `remarks` text DEFAULT NULL,
+  `date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `transactions`
 --
 
-INSERT INTO `transactions` (`id`, `user_id`, `amount`, `remarks`) VALUES
-(1, 1, '500', 'Hi Everyone this is my first transaction');
+INSERT INTO `transactions` (`id`, `user_id`, `manager_id`, `amount`, `remarks`, `date`) VALUES
+(1, 1, 2, 249, 'Hello this is my first transaction', '2022-11-29'),
+(2, 2, 1, 600, 'success', '2022-11-29');
 
 -- --------------------------------------------------------
 
@@ -78,16 +81,20 @@ CREATE TABLE `users` (
   `manager_id` int(11) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `mobile` varchar(255) DEFAULT NULL,
-  `balance` int(11) DEFAULT 0
+  `balance` int(11) DEFAULT 0,
+  `expense` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `manager_id`, `name`, `mobile`, `balance`) VALUES
-(1, 0, 'last name', '56858', 234),
-(2, NULL, 'last name', '56858', NULL);
+INSERT INTO `users` (`id`, `manager_id`, `name`, `mobile`, `balance`, `expense`) VALUES
+(1, 0, 'sanjay', '56858', 3720, 500),
+(2, 1, 'last name', '56858', NULL, 0),
+(3, 2, 'prasad', '8778624681', 0, 0),
+(4, 2, 'vvb', '33398889', 0, 0),
+(5, 2, 'tcg', '99885255', 0, 0);
 
 --
 -- Indexes for dumped tables
@@ -125,13 +132,13 @@ ALTER TABLE `managers`
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

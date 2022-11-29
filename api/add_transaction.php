@@ -13,15 +13,10 @@ $db = new Database();
 $db->connect();
 
 
+
 if (empty($_POST['user_id'])) {
     $response['success'] = false;
     $response['message'] = "User ID is Empty";
-    print_r(json_encode($response));
-    return false;
-}
-if (empty($_POST['manager_id'])) {
-    $response['success'] = false;
-    $response['message'] = "Manager ID is Empty";
     print_r(json_encode($response));
     return false;
 }
@@ -37,20 +32,42 @@ if (empty($_POST['remarks'])) {
     print_r(json_encode($response));
     return false;
 }
+if (empty($_POST['manager_id'])) {
+    $response['success'] = false;
+    $response['message'] = "Manager Id is Empty";
+    print_r(json_encode($response));
+    return false;
+}
 
 $user_id = $db->escapeString($_POST['user_id']);
 $manager_id = $db->escapeString($_POST['manager_id']);
 $amount = $db->escapeString($_POST['amount']);
 $remarks = $db->escapeString($_POST['remarks']);
+$date = date('Y-m-d');
 
 $sql = "UPDATE users SET balance = balance + $amount WHERE id = $user_id";
 $db->sql($sql);
 
-$sql = "INSERT INTO transactions (`user_id`,`manager_id`,`amount`,`remarks`)VALUES('$user_id','$manager_id','$amount','$remarks')";
+$sql = "SELECT * FROM transactions WHERE user_id=$user_id AND date='$date'";
 $db->sql($sql);
-$res = $db->getResult();
-$response['success'] = true;
-$response['message'] = "Transaction Registered Successfully";
-print_r(json_encode($response));
+$result = $db->getResult();
+$num = $db->numRows($result);
+if($num>=1){
+    $sql = "UPDATE transactions SET amount = amount + $amount,remarks='$remarks' WHERE user_id=$user_id AND date='$date'";
+    $db->sql($sql);
+    $res = $db->getResult();
+    $response['success'] = true;
+    $response['message'] = "Transaction Updated Successfully";
+    print_r(json_encode($response));
+}
+else{
+    $sql = "INSERT INTO transactions (`user_id`,`manager_id`,`amount`,`remarks`,`date`)VALUES('$user_id','$manager_id','$amount','$remarks','$date')";
+    $db->sql($sql);
+    $res = $db->getResult();
+    $response['success'] = true;
+    $response['message'] = "Transaction Added Successfully";
+    print_r(json_encode($response));
+
+}
 
 ?>
