@@ -11,23 +11,23 @@ include_once('../includes/crud.php');
 
 $db = new Database();
 $db->connect();
-// if (empty($_POST['manager_id'])) {
-//     $response['success'] = false;
-//     $response['message'] = "Manager ID is Empty";
-//     print_r(json_encode($response));
-//     return false;
-// }
-// if (empty($_POST['date'])) {
-//     $response['success'] = false;
-//     $response['message'] = "Date is Empty";
-//     print_r(json_encode($response));
-//     return false;
-// }
+if (empty($_POST['manager_id'])) {
+    $response['success'] = false;
+    $response['message'] = "Manager ID is Empty";
+    print_r(json_encode($response));
+    return false;
+}
+if (empty($_POST['date'])) {
+    $response['success'] = false;
+    $response['message'] = "Date is Empty";
+    print_r(json_encode($response));
+    return false;
+}
 $manager_id = $db->escapeString($_POST['manager_id']);
 $date = $db->escapeString($_POST['date']);
 
 
-$sql = "SELECT * FROM transactions t,users u WHERE t.user_id = u.id AND t.manager_id = $manager_id AND date='$date'";
+$sql = "SELECT * FROM transactions t,users u WHERE t.user_id = u.id AND t.manager_id = $manager_id AND t.date='$date'";
 $db->sql($sql);
 $res = $db->getResult();
 $sql = "SELECT SUM(amount) AS total_balance FROM transactions WHERE manager_id = $manager_id";
