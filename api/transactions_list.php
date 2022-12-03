@@ -11,25 +11,40 @@ include_once('../includes/crud.php');
 
 $db = new Database();
 $db->connect();
-if (empty($_POST['manager_id'])) {
-    $response['success'] = false;
-    $response['message'] = "Manager ID is Empty";
-    print_r(json_encode($response));
-    return false;
-}
-if (empty($_POST['date'])) {
-    $response['success'] = false;
-    $response['message'] = "Date is Empty";
-    print_r(json_encode($response));
-    return false;
-}
+// if (empty($_POST['manager_id'])) {
+//     $response['success'] = false;
+//     $response['message'] = "Manager ID is Empty";
+//     print_r(json_encode($response));
+//     return false;
+// }
+// if (empty($_POST['date'])) {
+//     $response['success'] = false;
+//     $response['message'] = "Date is Empty";
+//     print_r(json_encode($response));
+//     return false;
+// }
 $manager_id = $db->escapeString($_POST['manager_id']);
 $date = $db->escapeString($_POST['date']);
 
 
-$sql = "SELECT *,SUM(amount) AS total_balance FROM transactions t,users u WHERE t.user_id = u.id AND t.manager_id = $manager_id AND t.date='$date'";
+$sql = "SELECT * FROM transactions t,users u WHERE t.user_id = u.id AND t.manager_id = $manager_id AND date='$date'";
 $db->sql($sql);
 $res = $db->getResult();
+$sql = "SELECT SUM(amount) AS total_balance FROM transactions WHERE manager_id = $manager_id";
+$db->sql($sql);
+$result = $db->getResult();
+$total_balance=$result[0]['total_balance'];
+$sql = "SELECT * FROM need_amount WHERE manager_id = $manager_id AND date='$date'";
+$db->sql($sql);
+$resslot = $db->getResult();
+$num = $db->numRows($resslot);
+if($num>=1){
+    $need_amount=$resslot[0]['amount'];
+}
+else{
+    $need_amount=0;
+
+}
 $num = $db->numRows($res);
 if ($num >= 1){
     foreach ($res as $row) {
@@ -39,13 +54,15 @@ if ($num >= 1){
         $temp['date'] = $row['date'];
         $temp['remarks'] = $row['remarks'];
         $temp['balance'] = $row['balance'];
-        $temp['total_balance'] = $row['total_balance'];
+        $temp['total_balance'] =$total_balance;
+        $temp['need_amount'] =$need_amount;
         $rows[] = $temp;
     }
     $response['success'] = true;
     $response['message'] = "Transactions Listed Successfully";
-    $response['grand_total'] = $row['total_balance'];
+    $response['grand_total'] = $total_balance;
     $response['data'] = $rows;
+  
     print_r(json_encode($response));
 }
 else{

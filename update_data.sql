@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 29, 2022 at 08:35 AM
+-- Generation Time: Dec 03, 2022 at 07:31 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 7.4.29
 
@@ -46,6 +46,26 @@ INSERT INTO `managers` (`id`, `pin`, `name`, `mobile`, `email`, `status`) VALUES
 (3, '7541', 'john', '8767654543', 'john@yahoo.com', 0),
 (4, '1187', 'prasad', '9876543210', 'jp@gmail.com', 0),
 (5, '1713', 'prrasad', '987678986', 'prasad@gmail.com', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `need_amount`
+--
+
+CREATE TABLE `need_amount` (
+  `id` int(11) NOT NULL,
+  `manager_id` int(11) DEFAULT 0,
+  `date` date DEFAULT NULL,
+  `amount` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `need_amount`
+--
+
+INSERT INTO `need_amount` (`id`, `manager_id`, `date`, `amount`) VALUES
+(1, 1, '2022-11-29', '400');
 
 -- --------------------------------------------------------
 
@@ -107,6 +127,12 @@ ALTER TABLE `managers`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `need_amount`
+--
+ALTER TABLE `need_amount`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `transactions`
 --
 ALTER TABLE `transactions`
@@ -127,6 +153,12 @@ ALTER TABLE `users`
 --
 ALTER TABLE `managers`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `need_amount`
+--
+ALTER TABLE `need_amount`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `transactions`
