@@ -55,12 +55,12 @@ if ($num >= 1){
         $temp['remarks'] = $row['remarks'];
         $temp['balance'] = $row['balance'];
         $temp['total_balance'] =$total_balance;
-        $temp['need_amount'] =$need_amount;
         $rows[] = $temp;
     }
     $response['success'] = true;
     $response['message'] = "Transactions Listed Successfully";
     $response['grand_total'] = $total_balance;
+    $response['need_amount'] = $need_amount;
     $response['data'] = $rows;
   
     print_r(json_encode($response));
