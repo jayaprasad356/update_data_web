@@ -42,7 +42,7 @@ if ($num >= 1) {
     $db->sql($sql);
     $res = $db->getResult();
     $response['success'] = true;
-    $response['message'] = "Update Need Updated Successfully";
+    $response['message'] = "Need Updated Successfully";
     print_r(json_encode($response));
 }
 else{
@@ -50,7 +50,7 @@ else{
     $db->sql($sql);
     $res = $db->getResult();
     $response['success'] = true;
-    $response['message'] = "Update need Added Successfully";
+    $response['message'] = "Need Added Successfully";
     print_r(json_encode($response));
 
 }

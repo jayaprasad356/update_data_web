@@ -47,6 +47,7 @@ else{
 }
 $num = $db->numRows($res);
 if ($num >= 1){
+    $rows = array();
     foreach ($res as $row) {
         $temp['id'] = $row['id'];
         $temp['user_id'] = $row['user_id'];
@@ -68,6 +69,8 @@ if ($num >= 1){
 else{
     $response['success'] = false;
     $response['message'] = "No Transactions List found";
+    $response['grand_total'] = "0";
+    $response['need_amount'] = "0";
     print_r(json_encode($response));
 
 }
