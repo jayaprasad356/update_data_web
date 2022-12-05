@@ -30,7 +30,7 @@ $date = $db->escapeString($_POST['date']);
 $sql = "SELECT * FROM transactions t,users u WHERE t.user_id = u.id AND t.manager_id = $manager_id AND date='$date'";
 $db->sql($sql);
 $res = $db->getResult();
-$sql = "SELECT SUM(amount) AS total_balance FROM transactions WHERE manager_id = $manager_id";
+$sql = "SELECT SUM(amount) AS total_balance FROM transactions WHERE manager_id = $manager_id AND date='$date'";
 $db->sql($sql);
 $result = $db->getResult();
 $total_balance=$result[0]['total_balance'];
@@ -51,6 +51,7 @@ if ($num >= 1){
     foreach ($res as $row) {
         $temp['id'] = $row['id'];
         $temp['user_id'] = $row['user_id'];
+        $temp['name'] = $row['name'];
         $temp['amount'] = $row['amount'];
         $temp['date'] = $row['date'];
         $temp['remarks'] = $row['remarks'];
