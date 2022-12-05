@@ -31,10 +31,16 @@ if (empty($_POST['mobile'])) {
     print_r(json_encode($response));
     return false;
 }
-
+if (empty($_POST['expense'])) {
+    $response['success'] = false;
+    $response['message'] = "Expense is Empty";
+    print_r(json_encode($response));
+    return false;
+}
 $name = $db->escapeString($_POST['name']);
 $mobile = $db->escapeString($_POST['mobile']);
 $manager_id = $db->escapeString($_POST['manager_id']);
+$expense = $db->escapeString($_POST['expense']);
 $sql = "SELECT * FROM users WHERE mobile = '$mobile'";
 $db->sql($sql);
 $res = $db->getResult();
@@ -45,7 +51,7 @@ if ($num >= 1){
     print_r(json_encode($response));
 }
 else{
-    $sql = "INSERT INTO users (`name`,`mobile`,`manager_id`)VALUES('$name','$mobile',$manager_id)";
+    $sql = "INSERT INTO users (`name`,`mobile`,`manager_id`,`expense`)VALUES('$name','$mobile',$manager_id,'$expense')";
     $db->sql($sql);
     $res = $db->getResult();
     $response['success'] = true;
