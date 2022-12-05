@@ -1,9 +1,9 @@
 
 <section class="content-header">
     <h1>Users /<small><a href="home.php"><i class="fa fa-home"></i> Home</a></small></h1>
-    <ol class="breadcrumb">
+    <!-- <ol class="breadcrumb">
         <a class="btn btn-block btn-default" href="add-users.php"><i class="fa fa-plus-square"></i> Add New users</a>
-    </ol>
+    </ol> -->
 </section>
     <!-- Main content -->
     <section class="content">
@@ -22,12 +22,12 @@
                                 <tr>
                                     
                                     <th  data-field="id" data-sortable="true">ID</th>
-                                    <th  data-field="managers_id" data-sortable="true">Managers ID</th>
+                                    <th  data-field="manager_name" data-sortable="true">Managers Name</th>
                                     <th  data-field="name" data-sortable="true">Name</th>
                                     <th  data-field="mobile" data-sortable="true">Mobile</th>
                                     <th  data-field="balance" data-sortable="true">Balance</th>
-                                    
-                                    <th class="main" data-field="operate" data-events="actionEvents">Action</th>
+                                    <th  data-field="expense" data-sortable="true">Expense</th>
+                                    <!-- <th class="main" data-field="operate" data-events="actionEvents">Action</th> -->
                                 </tr>
                             </thead>
                         </table>

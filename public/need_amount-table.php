@@ -1,8 +1,8 @@
 
 <section class="content-header">
-    <h1>Transactions /<small><a href="home.php"><i class="fa fa-home"></i> Home</a></small></h1>
+    <h1>Need Amount /<small><a href="home.php"><i class="fa fa-home"></i> Home</a></small></h1>
     <!-- <ol class="breadcrumb">
-        <a class="btn btn-block btn-default" href="add-transaction.php"><i class="fa fa-plus-square"></i> Add New Transaction</a>
+        <a class="btn btn-block btn-default" href="add-users.php"><i class="fa fa-plus-square"></i> Add New users</a>
     </ol> -->
 </section>
     <!-- Main content -->
@@ -14,7 +14,7 @@
                 <div class="box">
                     
                     <div  class="box-body table-responsive">
-                    <table id='users_table' class="table table-hover" data-toggle="table" data-url="api-firebase/get-bootstrap-table-data.php?table=transactions" data-page-list="[5, 10, 20, 50, 100, 200]" data-show-refresh="true" data-show-columns="true" data-side-pagination="server" data-pagination="true" data-search="true" data-trim-on-search="false" data-filter-control="true" data-query-params="queryParams" data-sort-name="id" data-sort-order="desc" data-show-export="false" data-export-types='["txt","excel"]' data-export-options='{
+                    <table id='users_table' class="table table-hover" data-toggle="table" data-url="api-firebase/get-bootstrap-table-data.php?table=need_amount" data-page-list="[5, 10, 20, 50, 100, 200]" data-show-refresh="true" data-show-columns="true" data-side-pagination="server" data-pagination="true" data-search="true" data-trim-on-search="false" data-filter-control="true" data-query-params="queryParams" data-sort-name="id" data-sort-order="desc" data-show-export="false" data-export-types='["txt","excel"]' data-export-options='{
                             "fileName": "students-list-<?= date('d-m-Y') ?>",
                             "ignoreColumn": ["operate"] 
                         }'>
@@ -22,12 +22,11 @@
                                 <tr>
                                     
                                     <th  data-field="id" data-sortable="true">ID</th>
-                                    <th  data-field="name" data-sortable="true">Name</th>
-                                    <th  data-field="mobile" data-sortable="true">User Mobile</th>
                                     <th  data-field="manager_name" data-sortable="true">Manager Name</th>
+                                    <th  data-field="mobile" data-sortable="true">Mobile</th>
+                                    <th  data-field="date" data-sortable="true">Date</th>
                                     <th  data-field="amount" data-sortable="true">Amount</th>
-                                    <th  data-field="remarks" data-sortable="true">Remarks</th>
-                                    <th data-field="date" data-sortable="true">Date</th>
+                                    <!-- <th class="main" data-field="operate" data-events="actionEvents">Action</th> -->
                                 </tr>
                             </thead>
                         </table>
