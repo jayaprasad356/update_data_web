@@ -109,6 +109,14 @@ if (isset($_GET['table']) && $_GET['table'] == 'transactions') {
     $where = '';
     $sort = 'id';
     $order = 'DESC';
+    if (isset($_GET['date']) && $_GET['date'] != '') {
+        $date = $db->escapeString($fn->xss_clean($_GET['date']));
+        $where .= "AND t.`date` = '$date' ";
+    }
+    if ((isset($_GET['manager_id']) && $_GET['manager_id'] != '')) {
+        $manager_id = $db->escapeString($fn->xss_clean($_GET['manager_id']));
+        $where .= "AND t.`manager_id` = '$manager_id' ";
+    }
     if (isset($_GET['offset']))
         $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
     if (isset($_GET['limit']))
@@ -121,7 +129,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'transactions') {
 
     if (isset($_GET['search']) && !empty($_GET['search'])) {
         $search = $db->escapeString($fn->xss_clean($_GET['search']));
-        $where .= "WHERE u.name like '%" . $search . "%' OR t.amount like '%" . $search . "%' OR u.mobile like '%" . $search . "%' OR t.date like '%" . $search . "%' OR m.name like '%" . $search . "%'";
+        $where .= "AND u.name like '%" . $search . "%' OR t.amount like '%" . $search . "%' OR u.mobile like '%" . $search . "%' OR t.date like '%" . $search . "%' OR m.name like '%" . $search . "%' ";
     }
     if (isset($_GET['sort'])) {
         $sort = $db->escapeString($_GET['sort']);
@@ -129,7 +137,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'transactions') {
     if (isset($_GET['order'])) {
         $order = $db->escapeString($_GET['order']);
     }
-    $join = "LEFT JOIN `managers` m ON t.manager_id = m.id LEFT JOIN `users` u ON t.user_id = u.id";
+    $join = "LEFT JOIN `managers` m ON t.manager_id = m.id LEFT JOIN `users` u ON t.user_id = u.id WHERE t.id IS NOT NULL ";
 
     $sql = "SELECT COUNT(*) as `total` FROM `transactions` t $join " . $where . "";
     $db->sql($sql);
