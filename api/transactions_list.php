@@ -34,6 +34,12 @@ $sql = "SELECT SUM(amount) AS total_balance FROM transactions WHERE manager_id =
 $db->sql($sql);
 $result = $db->getResult();
 $total_balance=$result[0]['total_balance'];
+$yesterday_date=$date;
+echo $yesterday_date;
+$sql = "SELECT SUM(amount) AS yesterday_balance FROM transactions WHERE manager_id = $manager_id AND date='$yesterday_date'";
+$db->sql($sql);
+$ressy = $db->getResult();
+$yesterday_balance=$ressy[0]['yesterday_balance'];
 $sql = "SELECT * FROM need_amount WHERE manager_id = $manager_id AND date='$date'";
 $db->sql($sql);
 $resslot = $db->getResult();
@@ -62,6 +68,7 @@ if ($num >= 1){
     $response['success'] = true;
     $response['message'] = "Transactions Listed Successfully";
     $response['grand_total'] = $total_balance;
+    $response['yesterday_balance'] = $yesterday_balance;
     $response['need_amount'] = $need_amount;
     $response['data'] = $rows;
   
