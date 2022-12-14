@@ -6,7 +6,7 @@ header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
-
+date_default_timezone_set('Asia/Kolkata');
 include_once('../includes/crud.php');
 
 $db = new Database();
@@ -34,21 +34,27 @@ $sql = "SELECT SUM(amount) AS total_balance FROM transactions WHERE manager_id =
 $db->sql($sql);
 $result = $db->getResult();
 $total_balance=$result[0]['total_balance'];
-$yesterday_date=$date;
-echo $yesterday_date;
+$yesterday_date=date('Y-m-d',strtotime("-1 days"));
 $sql = "SELECT SUM(amount) AS yesterday_balance FROM transactions WHERE manager_id = $manager_id AND date='$yesterday_date'";
 $db->sql($sql);
 $ressy = $db->getResult();
-$yesterday_balance=$ressy[0]['yesterday_balance'];
+$yesterday_balance= $ressy[0]['yesterday_balance'];
+if($ressy[0]['yesterday_balance']  == null){
+    $yesterday_balance= 0;
+
+}
+
 $sql = "SELECT * FROM need_amount WHERE manager_id = $manager_id AND date='$date'";
 $db->sql($sql);
 $resslot = $db->getResult();
 $num = $db->numRows($resslot);
 if($num>=1){
     $need_amount=$resslot[0]['amount'];
+    $profit=$resslot[0]['profit'];
 }
 else{
     $need_amount=0;
+    $profit=0;
 
 }
 $num = $db->numRows($res);
@@ -63,6 +69,7 @@ if ($num >= 1){
         $temp['remarks'] = $row['remarks'];
         $temp['balance'] = $row['balance'];
         $temp['total_balance'] =$total_balance;
+
         $rows[] = $temp;
     }
     $response['success'] = true;
@@ -70,6 +77,7 @@ if ($num >= 1){
     $response['grand_total'] = $total_balance;
     $response['yesterday_balance'] = $yesterday_balance;
     $response['need_amount'] = $need_amount;
+    $response['profit'] =$profit;
     $response['data'] = $rows;
   
     print_r(json_encode($response));

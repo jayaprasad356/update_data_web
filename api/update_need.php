@@ -26,11 +26,16 @@ if (empty($_POST['date'])) {
     print_r(json_encode($response));
     return false;
 }
-
+if (empty($_POST['profit'])) {
+    $response['success'] = false;
+    $response['message'] = "Profit is Empty";
+    print_r(json_encode($response));
+    return false;
+}
 $manager_id=$db->escapeString($_POST['manager_id']);
 $date = $db->escapeString($_POST['date']);
 $amount = $db->escapeString($_POST['amount']);
-
+$profit = $db->escapeString($_POST['profit']);
 $sql = "SELECT * FROM need_amount WHERE date='$date' AND manager_id='$manager_id'";
 $db->sql($sql);
 $res = $db->getResult();
@@ -38,7 +43,7 @@ $num = $db->numRows($res);
 
 
 if ($num >= 1) {
-    $sql = "UPDATE need_amount SET amount = $amount  WHERE manager_id=$manager_id AND date='$date'";
+    $sql = "UPDATE need_amount SET amount = $amount,profit = $profit  WHERE manager_id=$manager_id AND date='$date'";
     $db->sql($sql);
     $res = $db->getResult();
     $response['success'] = true;
@@ -46,7 +51,7 @@ if ($num >= 1) {
     print_r(json_encode($response));
 }
 else{
-    $sql = "INSERT INTO need_amount (`manager_id`,`amount`,`date`)VALUES('$manager_id','$amount','$date')";
+    $sql = "INSERT INTO need_amount (`manager_id`,`amount`,`date`,`profit`)VALUES('$manager_id','$amount','$date','$profit')";
     $db->sql($sql);
     $res = $db->getResult();
     $response['success'] = true;
